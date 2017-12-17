@@ -23,7 +23,7 @@ const (
 // try count 4 : 1.0887689s
 // try count 5 : 1.0467384s
 //
-// [サイズ指定なし]
+// [サイズ指定あり]
 // try count 1 : 160.1065ms
 // try count 2 : 148.1115ms
 // try count 3 : 145.1081ms
