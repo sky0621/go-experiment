@@ -78,7 +78,7 @@ func schoolHandler(project, path string) func(c echo.Context) error {
 
 		_, err = client.Collection("region").Doc(regionID).
 			Collection("school").Doc(schoolID).
-			Collection("operation").Doc(operationSequence).
+			Collection("operation").Doc(fmt.Sprintf("%d", operationSequence)).
 			Set(ctx, map[string]interface{}{
 				"operationSequence": operationSequence,
 				"order":             path + ":" + regionID + ":" + schoolID,
@@ -117,7 +117,7 @@ func handler(project, path string) func(c echo.Context) error {
 
 		_, err = client.Collection("region").Doc(regionID).
 			Collection("school").Doc(schoolID).
-			Collection("operation").Doc(operationSequence).
+			Collection("operation").Doc(fmt.Sprintf("%d", operationSequence)).
 			Set(ctx, map[string]interface{}{
 				"operationSequence": operationSequence,
 				"order":             path + ":" + regionID + ":" + schoolID + ":" + newID,
@@ -138,6 +138,6 @@ func createUUID() string {
 	return u.String()
 }
 
-func createOperationSequence() string {
-	return fmt.Sprintf("%d", time.Now().UnixNano())
+func createOperationSequence() int64 {
+	return time.Now().UnixNano()
 }
