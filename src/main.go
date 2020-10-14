@@ -39,19 +39,17 @@ func handler(project, path string) func(c echo.Context) error {
 		}
 		defer client.Close()
 
-		newID := createUUID()
+		order := fmt.Sprintf("%s:%s", path, createUUID())
 
-		operationSequence := time.Now().UnixNano()
-
-		_, err = client.Collection("operation").Doc(fmt.Sprintf("%d", operationSequence)).
+		_, err = client.Collection("operation").Doc(order).
 			Set(ctx, map[string]interface{}{
-				"operationSequence": operationSequence,
-				"order":             path + ":" + newID,
+				"order":    order,
+				"sequence": time.Now().UnixNano(),
 			}, firestore.MergeAll)
 		if err != nil {
 			log.Fatal(err)
 		}
-		return c.String(http.StatusOK, newID)
+		return c.String(http.StatusOK, order)
 	}
 }
 
